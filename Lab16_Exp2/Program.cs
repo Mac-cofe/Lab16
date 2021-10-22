@@ -18,22 +18,30 @@ namespace Lab16_Exp2
         {
 
             string path = @"C:\Exp2\Products.json";
-            int i = 0;
-            int k = 0;
+            double maxPrice = 0;
+            string nameProduct = "";
             string product_s;
             JsonSerializerOptions options = new JsonSerializerOptions()
             {
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
                 WriteIndented = true
             };
-
             Console.WriteLine("В файле хранятся данные о следующих товарах:");
             product_s = File.ReadAllText(path);
             Console.WriteLine(product_s);
 
-            Product product1 = JsonSerializer.Deserialize<Product>(product_s);  // ошибка
-
-            Console.WriteLine("Текст прочитан");
+            Product[] product = JsonSerializer.Deserialize<Product[]>(product_s);
+            
+            Console.WriteLine("Информация из файла прочтена");
+            for (int i = 0; i < product.Length; i++)
+            {
+                if (product[i].PriceProduct > maxPrice)
+                {
+                    maxPrice = product[i].PriceProduct;
+                    nameProduct = product[i].NameProduct;
+                }
+            }
+            Console.WriteLine($"Самый дорогой товар: {nameProduct}, его цена: {maxPrice} за 1 кг.");
             Console.ReadKey();
         }
     }

@@ -34,7 +34,7 @@ namespace Lab16_Exp1
 
             Console.WriteLine("Заполним данные на 5 товаров");
             Console.WriteLine();
-            string[] products = new string[5];
+            Product[] arrayProduct = new Product[5];  // массив экземлпяров класса Product
 
             try
             {
@@ -42,25 +42,17 @@ namespace Lab16_Exp1
                 {
                     for (int i = 0; i <= 4; i++)
                     {
-                        Product product = new Product();
+                        arrayProduct[i] = new Product();
                         Console.WriteLine($"Введите данные о {i + 1}-ом товаре");
-                        product.Input();                                                        // ввод данных о товаре
-
-                        string jsonString = JsonSerializer.Serialize(product, options);
-                        products[i] = jsonString;                                               // запись данных в массив
-
-                        file.WriteLine(jsonString);                             // запись данных в файл
+                        arrayProduct[i].Input();                                                 // ввод данных о товаре в массив
                     }
+                    string jsonString = JsonSerializer.Serialize(arrayProduct, options);    
+                    file.WriteLine(jsonString);
+                    //Console.WriteLine(jsonString);                            // проверка, что записалось в jsonString
                 }
             }
             catch (Exception e)
             { Console.WriteLine(e.Message); }
-
-            Console.WriteLine("Сохранены данные о следующих товарах:");    // проверка, что записалось в массив products
-            foreach (string s in products)
-            {
-                Console.WriteLine(s);
-            }
 
             Console.WriteLine("Текст записан в файл");
             Console.ReadKey();
